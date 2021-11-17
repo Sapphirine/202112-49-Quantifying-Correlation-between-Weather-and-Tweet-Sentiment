@@ -1,6 +1,5 @@
 # import files and give access to tokens and keys
 import tweepy
-import datetime
 import pandas as pd
 import time
 import json
@@ -15,7 +14,7 @@ auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
 auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-RUNTIME = 20
+RUNTIME = 600
 
 res = []
 
@@ -55,5 +54,4 @@ if __name__ == "__main__":
     countdown(RUNTIME)
     stream.disconnect()
     df = pd.json_normalize(res)
-    print(df)
     df.to_csv('tweets.csv')
