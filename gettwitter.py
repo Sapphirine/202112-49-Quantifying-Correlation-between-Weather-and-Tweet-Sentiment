@@ -4,6 +4,7 @@ import datetime
 import pandas as pd
 import time
 import json
+import sys
 
 TWITTER_ACCESS_TOKEN = '1086889183388479488-yr5yewh0PpZUO66c5QzwLGeShZo5Gj'
 TWITTER_ACCESS_TOKEN_SECRET = 'HTAtrSypgnMldkeIHxg1KDF2XFHb9pwnYGfiFoElRVzct'
@@ -14,7 +15,7 @@ auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
 auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-RUNTIME = 10
+RUNTIME = 20
 
 res = []
 
@@ -33,6 +34,15 @@ class StdOutListener(tweepy.Stream):
         print(status)
 
 
+def countdown(t):
+    for i in range(t, -1, -1):
+        sys.stdout.write("\r")
+        sys.stdout.write("{:2d} seconds remaining...".format(i))
+        sys.stdout.flush()
+        time.sleep(1)
+    print()
+
+
 if __name__ == "__main__":
     print("Start getting tweets...")
     stream = StdOutListener(
@@ -40,9 +50,9 @@ if __name__ == "__main__":
         TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET
     )
     stream.filter(locations=[-74, 40, -73, 41],
-                  languages='en',
+                  languages=['en'],
                   threaded=True)
-    time.sleep(RUNTIME)
+    countdown(RUNTIME)
     stream.disconnect()
     df = pd.json_normalize(res)
     print(df)
