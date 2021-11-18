@@ -19,8 +19,8 @@ auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
 auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-RUNTIME = 10    # Seconds to run code
-weatherUpdateInterval = 30    # Seconds to update weather information
+RUNTIME = 20  # Seconds to run code
+weatherUpdateInterval = 30  # Seconds to update weather information
 
 res = []
 
@@ -32,8 +32,8 @@ class StdOutListener(tweepy.Stream):
             text = atRemover(status.text)
             if lang == 'en' and len(text.split()) > 3:
                 sentimentAnalyzer = TextBlob(text).sentiment
-                sent = {'Polarity': sentimentAnalyzer[0], 'Subjectivity': sentimentAnalyzer[1]}               
-                
+                sent = {'Polarity': sentimentAnalyzer[0], 'Subjectivity': sentimentAnalyzer[1]}
+
                 date = status.created_at
                 box = [v for v in status.place.bounding_box.coordinates[0]]
                 msg = {'Date': date, 'Text': text, 'Box': box}
@@ -54,7 +54,7 @@ def countdown(t, mgr, weatherUpdateInterval):
     global weather_status
     global temperature
     global wind
-    
+
     for i in range(t, -1, -1):
         if (t - i) % weatherUpdateInterval == 0:
             weather = mgr.weather_at_place('New York').weather
@@ -83,18 +83,21 @@ if __name__ == "__main__":
     )
     stream.filter(locations=[-74, 40, -73, 41],
                   threaded=True)
-    
+
     owm = OWM(APIKEY)
     mgr = owm.weather_manager()
     weather = mgr.weather_at_place('New York').weather
-    
+
     countdown(RUNTIME, mgr, weatherUpdateInterval)
     stream.disconnect()
     print(res)
-    with open ('tweets2.csv', 'w', encoding='utf-8') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=['Date','Text','Box', 'Status', 'Temperature', 'Wind', 'Polarity', 'Subjectivity'],
-                                lineterminator = '\n')
+    with open('tweets2.csv', 'w', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile,
+                                fieldnames=['Date', 'Text',
+                                            'Box', 'Status',
+                                            'Temperature', 'Wind',
+                                            'Polarity', 'Subjectivity'],
+                                lineterminator='\n')
         writer.writeheader()
         for data in res:
             writer.writerow(data)
-
