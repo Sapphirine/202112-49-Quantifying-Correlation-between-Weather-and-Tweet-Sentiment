@@ -153,7 +153,7 @@ def processTweets():
         if len(text) < 4:
             drops.append(tweet)
 
-    tweets.drop(drops)
+    tweets = tweets.drop(drops)
     tweets.to_csv(pathTweetStorage, encoding='UTF-8', index=False)
     
         
