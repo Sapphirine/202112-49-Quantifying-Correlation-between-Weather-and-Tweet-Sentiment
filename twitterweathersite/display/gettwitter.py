@@ -59,7 +59,7 @@ def stream_tweets():
     countdown(RUNTIME)
     stream.disconnect()
     df = pd.json_normalize(res)
-    cols = ["created_at", "id", "text", "user.id"]
+    cols = ["created_at", "id", "text"]
     return df.loc[:, cols]
 
 
