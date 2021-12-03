@@ -42,7 +42,12 @@ def countdown(t):
     print()
 
 
-if __name__ == "__main__":
+def stream_tweets():
+    """Stream tweet data.
+
+    Returns:
+        A slice of df.
+    """
     print("Start getting tweets...")
     stream = StdOutListener(
         TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET,
@@ -54,4 +59,15 @@ if __name__ == "__main__":
     countdown(RUNTIME)
     stream.disconnect()
     df = pd.json_normalize(res)
-    df.to_csv('tweets.csv')
+    cols = ["created_at", "id", "text", "user.id"]
+    return df.loc[:, cols]
+
+
+def get_historic_tweets():
+    return 0
+
+
+if __name__ == "__main__":
+    dic = stream_tweets()
+    print(dic)
+    # df.to_csv('tweets.csv')
