@@ -4,6 +4,8 @@ import pandas as pd
 import time
 import json
 import sys
+from textblob import TextBlob
+
 
 TWITTER_ACCESS_TOKEN = '1086889183388479488-yr5yewh0PpZUO66c5QzwLGeShZo5Gj'
 TWITTER_ACCESS_TOKEN_SECRET = 'HTAtrSypgnMldkeIHxg1KDF2XFHb9pwnYGfiFoElRVzct'
@@ -90,5 +92,8 @@ def get_all_tweets(timer=10):
 if __name__ == "__main__":
     # dic = stream_tweets()
     # print(dic)
-    get_all_tweets(600)
+    # get_all_tweets(600)
     # df.to_csv('tweets.csv')
+    twitter_df = pd.read_csv("tweetsexample.csv").loc[:, ["created_at", "id", "text"]]
+    twitter_df[['polarity', 'subjectivity']] = twitter_df['text'].apply(lambda x: pd.Series(TextBlob(x).sentiment))
+    twitter_df.to_csv('tweetsexample_with_sentiment.csv')
