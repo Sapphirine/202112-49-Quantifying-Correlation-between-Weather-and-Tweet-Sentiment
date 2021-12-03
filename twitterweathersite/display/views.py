@@ -14,11 +14,14 @@ def index(request):
 def dashboard(request):
     work = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(work, 'weather_storage.csv')
-    df = pd.read_csv(path)
+    weather_df = pd.read_csv(path)
     temp_and_wind = getweather.get_realtime_weather()
-    twitter_df = gettwitter.stream_tweets()
-    context = {"columns": df.columns,
-               'rows': df.to_dict('records'),
+    # twitter_df = gettwitter.stream_tweets()
+    twitter_path = os.path.join(work, "tweetsexample.csv")
+    twitter_df = pd.read_csv(twitter_path)
+    twitter_df = twitter_df.loc[:, ["created_at", "id", "text"]]
+    context = {"columns": weather_df.columns,
+               'rows': weather_df.to_dict('records'),
                "weather_cols": temp_and_wind.keys(),
                "weather_stats": temp_and_wind.values(),
                "twitter_cols": twitter_df.columns,

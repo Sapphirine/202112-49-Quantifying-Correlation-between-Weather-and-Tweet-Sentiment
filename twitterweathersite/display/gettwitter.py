@@ -67,7 +67,28 @@ def get_historic_tweets():
     return 0
 
 
+def get_all_tweets(timer=10):
+    """Get all tweets without slicing.
+
+    Returns:
+        A slice of df.
+    """
+    print("Start getting tweets...")
+    stream = StdOutListener(
+        TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET,
+        TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET
+    )
+    stream.filter(locations=[-74, 40, -73, 41],
+                  languages=['en'],
+                  threaded=True)
+    countdown(timer)
+    stream.disconnect()
+    df = pd.json_normalize(res)
+    df.to_csv("tweetsexample.csv")
+
+
 if __name__ == "__main__":
-    dic = stream_tweets()
-    print(dic)
+    # dic = stream_tweets()
+    # print(dic)
+    get_all_tweets(600)
     # df.to_csv('tweets.csv')
