@@ -13,7 +13,8 @@ def index(request):
 def dashboard(request):
     workdir = os.path.dirname(os.path.abspath(__file__))
     temp_and_wind_dic = getweather.get_realtime_weather()
-    twitter_df = (pd.read_csv(os.path.join(workdir, "tweetsexample_with_sentiment.csv"),
+    twitter_df = (pd.read_csv(os.path.join(workdir,
+                                           "tweet_with_sentiment_local.csv"),
                               index_col=0))
     context = {"weather_cols": temp_and_wind_dic.keys(),
                "weather_stats": temp_and_wind_dic.values(),
