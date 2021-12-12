@@ -1,4 +1,3 @@
-# import files and give access to tokens and keys
 import tweepy
 import pandas as pd
 import time
@@ -6,8 +5,7 @@ import json
 import sys
 from textblob import TextBlob
 import logging
-from datetime import datetime
-
+import os
 
 TWITTER_ACCESS_TOKEN = '1086889183388479488-yr5yewh0PpZUO66c5QzwLGeShZo5Gj'
 TWITTER_ACCESS_TOKEN_SECRET = 'HTAtrSypgnMldkeIHxg1KDF2XFHb9pwnYGfiFoElRVzct'
@@ -46,8 +44,8 @@ def countdown(t):
     print()
 
 
-def update_tweets():
-    """Get a slice of tweets in a given timeframe. """
+def update_tweets(timer=10):
+    """Update tweets. """
     logging.info("Start getting tweets...")
     stream = StdOutListener(
         TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET,
@@ -56,12 +54,20 @@ def update_tweets():
     stream.filter(locations=[-74, 40, -73, 41],
                   languages=['en'],
                   threaded=True)
-    countdown(RUNTIME)
+    countdown(timer)
     stream.disconnect()
     df = pd.json_normalize(res).loc[:, ["created_at", "id", "text"]]
     df[['polarity', 'subjectivity']] = df['text'].apply(lambda x: pd.Series(TextBlob(x).sentiment))
-    df.to_csv("updated_tweets.csv")
-    return 0
+    df["inferred"] = pd.to_datetime(df["created_at"], infer_datetime_format=True)
+    df["Time"] = df["inferred"].dt.tz_localize("utc").dt.tz_convert("US/Eastern").dt.tz_localize(None)
+    df = df.rename(columns={"id": "Id",
+                            "text": "Text",
+                            "polarity": "Polarity",
+                            "subjectivity": "Subjectivity"})
+    df = df.loc[:, ["Time", "Id", "Text", "Polarity", "Subjectivity"]]
+    workdir = os.path.dirname(os.path.abspath(__file__))
+    datadir = os.path.join(workdir, "data/tweet_with_sentiment_local.csv")
+    df.to_csv(datadir)
 
 
 def get_all_tweets(timer=10):
@@ -78,28 +84,3 @@ def get_all_tweets(timer=10):
     stream.disconnect()
     df = pd.json_normalize(res)
     df.to_csv("tweetsexample.csv")
-
-
-if __name__ == "__main__":
-    with_senti = pd.read_csv("tweetsexample_with_sentiment.csv", index_col=0)
-    # print(with_senti.iloc[0, :]["created_at"])
-    # print(type(with_senti.iloc[0, :]["created_at"]))
-    # datetime_object = datetime.strptime(with_senti.iloc[0, :]["created_at"],
-    #                                     '%a %b %d %H:%M:%S %z %Y')
-    # print(datetime_object)
-    with_senti["inferred"] = pd.to_datetime(with_senti["created_at"], infer_datetime_format=True)
-    # print(with_senti.head())
-    with_senti["Time"] = with_senti["inferred"].dt.tz_localize("utc").dt.tz_convert("US/Eastern").dt.tz_localize(None)
-    # res = with_senti["inferred"].dt.tz_localize("utc").dt.tz_convert("US/Eastern")
-    # print(res)
-    # print(res.dt.tz_localize(None))
-    # s = with_senti.loc[:, ["inferred", "local_time"]]
-    # print(s.head())
-    # print(with_senti.head())
-    with_senti = with_senti.rename(columns={"id": "Id",
-                                            "text": "Text",
-                                            "polarity": "Polarity",
-                                            "subjectivity": "Subjectivity"})
-    with_senti = with_senti.loc[:, ["Time", "Id", "Text", "Polarity", "Subjectivity"]]
-    with_senti.to_csv("tweet_with_sentiment_local.csv")
-

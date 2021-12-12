@@ -1,4 +1,32 @@
 /* globals Chart:false, feather:false */
+$(document).ready(function(){
+
+  var progress = setInterval(function() {
+    var $bar = $('.bar');
+
+    if ($bar.width()>=400) {
+      clearInterval(progress);
+      $('.progress').removeClass('active');
+    } else {
+      $bar.width($bar.width()+40);
+    }
+    $bar.text($bar.width()/4 + "%");
+  }, 800);
+
+})
+
+
+function generate_prediction(elmnt, clr) {
+  $.ajax({
+    type: "POST",
+    url: "test.py",
+    data: {param: text}
+  }).done(function() {
+    console.log("What?")
+  });
+  elmnt.style.color = clr;
+}
+
 
 (function () {
   'use strict'
