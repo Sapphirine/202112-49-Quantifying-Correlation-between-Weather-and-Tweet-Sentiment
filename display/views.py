@@ -15,8 +15,11 @@ def index(request):
 def dashboard(request):
     workdir = os.path.dirname(os.path.abspath(__file__))
     if request.method == 'POST' and 'update' in request.POST:
+        # get the time interval
+        print(request.POST)
+        twitter_time_interval = int(request.POST["twitter_time_interval"])
         from . import gettwitter
-        gettwitter.update_tweets()
+        gettwitter.update_tweets(twitter_time_interval)
         return HttpResponseRedirect(reverse('dashboard'))
 
     temp_and_wind_dic = getweather.get_realtime_weather()

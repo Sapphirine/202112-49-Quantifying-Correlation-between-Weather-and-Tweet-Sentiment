@@ -166,11 +166,21 @@
                     <div class="col-auto">
                         <form method="post">
                             {% csrf_token %}
-                            <button class="btn btn-light"
-                                    id="twitter_update"
-                                    type="submit" name="update">
-                                Update
-                            </button>
+                            <div class="input-group">
+                                <select class="form-select" id="inputGroupSelect04"
+                                        aria-label="Example select with button addon"
+                                        name="twitter_time_interval">
+                                    <option selected>Choose...</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                </select>
+                                <button class="btn btn-primary"
+                                        id="twitter_update"
+                                        type="submit" name="update">
+                                    Update
+                                </button>
+                            </div>
                         </form>
                     </div>
                     <div id="twitter_progress" class="col" style="padding-top: 10px;">
