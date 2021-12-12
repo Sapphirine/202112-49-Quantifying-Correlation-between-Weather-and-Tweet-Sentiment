@@ -14,7 +14,7 @@ def index(request):
 
 def dashboard(request):
     workdir = os.path.dirname(os.path.abspath(__file__))
-    if request.method == 'POST' and 'run_script' in request.POST:
+    if request.method == 'POST' and 'update' in request.POST:
         from . import gettwitter
         gettwitter.update_tweets()
         return HttpResponseRedirect(reverse('dashboard'))

@@ -1,20 +1,19 @@
 /* globals Chart:false, feather:false */
-$(document).ready(function(){
-
-  var progress = setInterval(function() {
-    var $bar = $('.bar');
-
-    if ($bar.width()>=400) {
-      clearInterval(progress);
-      $('.progress').removeClass('active');
-    } else {
-      $bar.width($bar.width()+40);
-    }
-    $bar.text($bar.width()/4 + "%");
-  }, 800);
-
+document.getElementById("twitter_update").addEventListener("click", function () {
+  let progress = document.createElement("div");
+  progress.className = "progress";
+  progress.style.height = "20px";
+  progress.innerHTML = `
+    <div class="progress-bar" role="progressbar" 
+    style="width: 25%;" 
+    aria-valuenow="25" 
+    aria-valuemin="0" 
+    aria-valuemax="100">
+    25%
+    </div>
+  `;
+  document.getElementById("twitter_progress").appendChild(progress);
 })
-
 
 function generate_prediction(elmnt, clr) {
   $.ajax({
