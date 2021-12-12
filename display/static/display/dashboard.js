@@ -16,20 +16,9 @@ function startTimer(duration, display) {
   }, 1000);
 }
 
-document.getElementById("twitter_update").addEventListener("click", function () {
-  let progress = document.createElement("div");
-  progress.className = "progress";
-  progress.style.height = "20px";
-  progress.innerHTML = `
-    <div class="progress-bar" role="progressbar" 
-    id="twitter_update_progressbar"
-    aria-valuemin="0"
-    aria-valuemax="100"></div>
-  `;
-  document.getElementById("twitter_progress").appendChild(progress);
-
-  let i = document.getElementById("twitter_select").value;
-  var display = document.getElementById('twitter_progress');
+document.getElementById("twitter_update_button").addEventListener("click", function () {
+  let i = document.getElementById("twitter_dropdown").value;
+  let display = document.getElementById('twitter_timer');
   startTimer(i, display);
 })
 
