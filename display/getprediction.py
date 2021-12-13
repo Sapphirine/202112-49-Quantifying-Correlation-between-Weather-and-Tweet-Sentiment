@@ -1,9 +1,6 @@
 import os
 import pickle
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-from plotly.graph_objs import *
 
 
 def get_prediction():
@@ -42,29 +39,3 @@ def get_prediction():
         pickle.dump(res_dict, f)
     return res_dict
 
-
-def plot_difference():
-    """Read in the prediction dictionary and draw a plotly express graph. """
-    cwd = os.path.dirname(os.path.abspath(__file__))
-    prediction_dir = os.path.join(cwd, "data/prediction_dict.pkl")
-    with open(prediction_dir, 'rb') as f:
-        prediction_dict = pickle.load(f)
-
-    prediction_diff = {model: prediction_dict[model] - prediction_dict["Current Sentiment"]
-                       for model in prediction_dict.keys() if model != "Current Sentiment"}
-    prediction_diff_df = (pd.DataFrame.from_dict(prediction_diff, orient="index")
-                          .reset_index().rename(columns={"index": "Models", 0: "Residual"}))
-    x = prediction_diff_df["Models"]
-    y = prediction_diff_df["Residual"]
-    layout = Layout(
-        plot_bgcolor='rgba(0, 0, 0, 0)'
-    )
-    fig = go.Figure(data=[go.Bar(
-        x=x, y=y,
-        text=y,
-        textposition='auto'
-    )], layout=layout)
-    fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)',
-                      marker_line_width=1.5, opacity=0.6)
-    graph = fig.to_html(full_html=False)
-    return graph

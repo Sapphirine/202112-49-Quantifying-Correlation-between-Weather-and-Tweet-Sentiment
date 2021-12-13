@@ -16,11 +16,12 @@ function startTimer(duration, display) {
   }, 1000);
 }
 
-document.getElementById("twitter_update_button").addEventListener("click", function () {
+function tweet_countdown(button) {
+  button.onclick = null;
   let i = document.getElementById("twitter_dropdown").value;
   let display = document.getElementById('twitter_timer');
   startTimer(i, display);
-})
+}
 
 function generate_prediction(elmnt, clr) {
   $.ajax({

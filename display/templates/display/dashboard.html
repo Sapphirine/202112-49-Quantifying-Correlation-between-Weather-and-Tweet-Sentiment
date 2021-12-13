@@ -187,10 +187,10 @@
                 </table>
             </div>
 
-            {% if graph %}
-            {{ graph|safe }}
+            {% if prediction_graph %}
+            {{ prediction_graph|safe }}
             {% else %}
-            <p>No graph was provided.</p>
+            <p>No prediction_graph was provided.</p>
             {% endif %}
 
             <hr/>
@@ -221,7 +221,7 @@
                                 <button class="btn btn-primary"
                                         id="twitter_update_button"
                                         type="submit"
-                                        name="twitter_update_button">
+                                        name="twitter_update_button" onclick="tweet_countdown(this);">
                                     Update
                                 </button>
                             </div>
@@ -254,6 +254,12 @@
                     </tbody>
                 </table>
             </div>
+
+            {% if sentiment_pie %}
+            {{ sentiment_pie|safe }}
+            {% else %}
+            <p>No sentiment_pie was provided.</p>
+            {% endif %}
 
             <hr/>
 
