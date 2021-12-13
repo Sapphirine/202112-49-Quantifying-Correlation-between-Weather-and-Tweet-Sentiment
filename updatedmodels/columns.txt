@@ -1,0 +1,1 @@
+Temperature,Status_Clear,Status_Clouds,Status_Haze,Status_Mist,Status_Rain,Status_Snow,

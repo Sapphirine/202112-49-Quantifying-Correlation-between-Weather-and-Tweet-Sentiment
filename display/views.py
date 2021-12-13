@@ -22,7 +22,7 @@ def dashboard(request):
     if request.method == 'POST' and 'weather_update_button' in request.POST:
         return HttpResponseRedirect(reverse('dashboard'))
 
-    temp_and_wind_dic = getweather.get_realtime_weather()
+    temp_and_wind_dic = getweather.get_weather_ohe()
     twitter_df = (pd.read_csv(os.path.join(workdir, "data/tweet_with_sentiment_local.csv"),
                               index_col=0))
     context = {"weather_cols": temp_and_wind_dic.keys(),
