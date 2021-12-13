@@ -24,3 +24,16 @@ def save_weather_dict(weather_dict):
     weather_dict_dir = os.path.join(cwd, "data/weather_dict.pkl")
     with open(weather_dict_dir, "wb") as f:
         pickle.dump(weather_dict, f)
+
+
+def save_prediction_dict(prediction_dict):
+    cwd = os.path.dirname(os.path.abspath(__file__))
+    prediction_dir = os.path.join(cwd, "data/prediction_dict.pkl")
+    with open(prediction_dir, 'wb') as f:
+        pickle.dump(prediction_dict, f)
+
+
+def get_sentiment(twitter_df):
+    positive_counts = sum(twitter_df["Polarity"] > 0)
+    negative_counts = sum(twitter_df["Polarity"] < 0)
+    return positive_counts / (positive_counts + negative_counts)

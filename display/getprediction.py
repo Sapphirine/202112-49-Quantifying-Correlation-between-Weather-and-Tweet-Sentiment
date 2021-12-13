@@ -1,6 +1,7 @@
 import os
 import pickle
 import pandas as pd
+from . import utils
 
 
 def get_prediction():
@@ -13,9 +14,10 @@ def get_prediction():
     models = [
         "LinearRegression",
         "RidgeRegression1",
-        "RidgeRegression2",
-        "RidgeRegression3",
-        "SVR"
+        "GradientBoosting",
+        "XGBoost",
+        "SVR",
+        "RandomForest"
     ]
     res = []
     for model in models:
@@ -27,15 +29,8 @@ def get_prediction():
 
     res_dict = {models[i]: res[i] for i in range(len(models))}
 
-    tweet_dir = os.path.join(cwd, "data/tweet_with_sentiment_local.csv")
-    tweet_with_sentiment_df = pd.read_csv(tweet_dir, index_col=0)
-    pos_count = sum(tweet_with_sentiment_df["Polarity"] > 0)
-    neg_count = sum(tweet_with_sentiment_df["Polarity"] < 0)
+    tweet_with_sentiment_df = utils.load_twitter_df()
+    res_dict["Current Sentiment"] = utils.get_sentiment(tweet_with_sentiment_df)
 
-    res_dict["Current Sentiment"] = pos_count / (pos_count + neg_count)
-
-    prediction_dir = os.path.join(cwd, "data/prediction_dict.pkl")
-    with open(prediction_dir, 'wb') as f:
-        pickle.dump(res_dict, f)
+    utils.save_prediction_dict(res_dict)
     return res_dict
-

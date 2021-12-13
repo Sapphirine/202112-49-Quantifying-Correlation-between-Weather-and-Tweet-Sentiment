@@ -135,14 +135,24 @@
                     <h2 class="h2">Dashboard</h2>
                 </div>
                 <div class="col-auto">
+                    <button class="btn btn-light disabled">
+                        Temperature: {{ temperature }}
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-light disabled">
+                        Sentiment: {{ sentiment }}
+                    </button>
+                </div>
+                <div class="col-auto">
                     <form method="post">
                         {% csrf_token %}
                         <div class="input-group">
                             <select class="form-select"
                                     id="dropdown"
                                     aria-label="Example select with button addon"
-                                    name="twitter_time_interval">
-                                <option selected>Choose...</option>
+                                    name="twitter_time_interval" style="width: 400px;">
+                                <option selected>Choose a time interval to update</option>
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="30">30</option>
@@ -160,7 +170,7 @@
                     </form>
                 </div>
                 <div class="col-auto">
-                    <div id="twitter_timer" class="col" style="padding-top: 10px;">
+                    <div id="twitter_timer" class="col">
                     </div>
                 </div>
             </div>

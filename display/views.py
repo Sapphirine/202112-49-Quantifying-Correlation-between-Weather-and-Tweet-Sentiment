@@ -27,5 +27,7 @@ def dashboard(request):
                "twitter_rows": twitter_df.to_dict("records"),
                "prediction_cols": prediction_dict.keys(),
                "prediction_values": prediction_dict.values(),
-               "combined_graph": combined_graph}
+               "combined_graph": combined_graph,
+               "temperature": temp_and_wind_dic["Temperature"],
+               "sentiment": utils.get_sentiment(twitter_df)}
     return render(request, 'display/dashboard.html', context)
