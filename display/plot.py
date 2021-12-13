@@ -3,15 +3,12 @@ import pickle
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.graph_objs import *
+from . import utils
 
 
 def plot_residual():
     """Read in the prediction dictionary and draw a plotly express graph. """
-    cwd = os.path.dirname(os.path.abspath(__file__))
-    prediction_dir = os.path.join(cwd, "data/prediction_dict.pkl")
-    with open(prediction_dir, 'rb') as f:
-        prediction_dict = pickle.load(f)
-
+    prediction_dict = utils.load_prediction_dict()
     prediction_diff = {model: prediction_dict[model] - prediction_dict["Current Sentiment"]
                        for model in prediction_dict.keys() if model != "Current Sentiment"}
     prediction_diff_df = (pd.DataFrame.from_dict(prediction_diff, orient="index")
@@ -35,9 +32,7 @@ def plot_residual():
 def plot_sentiment_pie():
     """Read in the twitter csv and draw a pie chart showing
     the proportion of positive and negative tweets. """
-    cwd = os.path.dirname(os.path.abspath(__file__))
-    twitter_dir = os.path.join(cwd, "data/tweet_with_sentiment_local.csv")
-    twitter_df = pd.read_csv(twitter_dir, index_col=0)
+    twitter_df = utils.load_twitter_df()
     positive_counts = sum(twitter_df["Polarity"] > 0)
     negative_counts = sum(twitter_df["Polarity"] < 0)
     colors = ['rgb(158,202,225)', 'mediumturquoise']

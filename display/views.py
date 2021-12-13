@@ -1,10 +1,8 @@
 from django.shortcuts import render
-import pandas as pd
 import os
-from . import getweather, getprediction, gettwitter, plot
+from . import getweather, getprediction, gettwitter, plot, utils
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-import pickle
 
 
 def index(request):
@@ -13,7 +11,6 @@ def index(request):
 
 
 def dashboard(request):
-    workdir = os.path.dirname(os.path.abspath(__file__))
     if request.method == 'POST' and 'twitter_update_button' in request.POST:
         gettwitter.update_tweets(int(request.POST["twitter_time_interval"]))
         return HttpResponseRedirect(reverse('dashboard'))
@@ -26,13 +23,9 @@ def dashboard(request):
         return HttpResponseRedirect(reverse('dashboard'))
 
     temp_and_wind_dic = getweather.get_weather_ohe()
-
-    with open(os.path.join(workdir, "data/prediction_dict.pkl"), "rb") as f:
-        prediction_dict = pickle.load(f)
-
+    prediction_dict = utils.load_prediction_dict()
     prediction_graph = plot.plot_residual()
-    twitter_df = (pd.read_csv(os.path.join(workdir, "data/tweet_with_sentiment_local.csv"),
-                              index_col=0))
+    twitter_df = utils.load_twitter_df()
     sentiment_pie_chart = plot.plot_sentiment_pie()
 
     context = {"weather_cols": temp_and_wind_dic.keys(),
