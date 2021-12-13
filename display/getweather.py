@@ -50,5 +50,3 @@ def get_weather_ohe():
 
     return weather_dict
 
-if __name__ == "__main__":
-    get_weather_ohe()
