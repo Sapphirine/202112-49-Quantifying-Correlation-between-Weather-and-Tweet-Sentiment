@@ -4,6 +4,7 @@ import os
 from . import getweather
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+import pickle
 
 
 def index(request):
@@ -22,11 +23,20 @@ def dashboard(request):
     if request.method == 'POST' and 'weather_update_button' in request.POST:
         return HttpResponseRedirect(reverse('dashboard'))
 
+    if request.method == 'POST' and 'prediction_update_button' in request.POST:
+        from . import getprediction
+        getprediction.get_prediction()
+        return HttpResponseRedirect(reverse('dashboard'))
+
     temp_and_wind_dic = getweather.get_weather_ohe()
+    with open(os.path.join(workdir, "data/prediction_dict.pkl"), "rb") as f:
+        prediction_dict = pickle.load(f)
     twitter_df = (pd.read_csv(os.path.join(workdir, "data/tweet_with_sentiment_local.csv"),
                               index_col=0))
     context = {"weather_cols": temp_and_wind_dic.keys(),
                "weather_stats": temp_and_wind_dic.values(),
                "twitter_cols": twitter_df.columns,
-               "twitter_rows": twitter_df.to_dict("records")}
+               "twitter_rows": twitter_df.to_dict("records"),
+               "prediction_cols": prediction_dict.keys(),
+               "prediction_values": prediction_dict.values()}
     return render(request, 'display/dashboard.html', context)

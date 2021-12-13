@@ -1,5 +1,6 @@
 from pyowm.owm import OWM
-
+import pickle
+import os
 
 APIKEY = 'c793c1dd5e4c10cfa3d5a520cd1161bc'
 
@@ -16,6 +17,7 @@ def get_realtime_weather():
 
 
 def get_weather_ohe():
+    cwd = os.path.dirname(os.path.abspath(__file__))
     owm = OWM(APIKEY)
     mgr = owm.weather_manager()
     weather = mgr.weather_at_place('New York').weather
@@ -41,5 +43,12 @@ def get_weather_ohe():
         weather_dict["Status_Mist"] += 1
     elif weather.status == "Snow":
         weather_dict["Status_Snow"] += 1
+
+    weather_dict_dir = os.path.join(cwd, "data/weather_dict.pkl")
+    with open(weather_dict_dir, "wb") as f:
+        pickle.dump(weather_dict, f)
+
     return weather_dict
 
+if __name__ == "__main__":
+    get_weather_ohe()
