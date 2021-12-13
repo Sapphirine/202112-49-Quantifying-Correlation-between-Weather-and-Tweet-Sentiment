@@ -18,7 +18,7 @@ function startTimer(duration, display) {
 
 function tweet_countdown(button) {
   button.onclick = null;
-  let i = document.getElementById("twitter_dropdown").value;
+  let i = document.getElementById("dropdown").value;
   let display = document.getElementById('twitter_timer');
   startTimer(i, display);
 }

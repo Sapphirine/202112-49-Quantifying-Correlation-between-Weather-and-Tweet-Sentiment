@@ -11,22 +11,15 @@ def index(request):
 
 
 def dashboard(request):
-    if request.method == 'POST' and 'twitter_update_button' in request.POST:
+    if request.method == 'POST' and 'update_button' in request.POST:
         gettwitter.update_tweets(int(request.POST["twitter_time_interval"]))
-        return HttpResponseRedirect(reverse('dashboard'))
-
-    if request.method == 'POST' and 'weather_update_button' in request.POST:
-        return HttpResponseRedirect(reverse('dashboard'))
-
-    if request.method == 'POST' and 'prediction_update_button' in request.POST:
         getprediction.get_prediction()
         return HttpResponseRedirect(reverse('dashboard'))
 
     temp_and_wind_dic = getweather.get_weather_ohe()
     prediction_dict = utils.load_prediction_dict()
-    prediction_graph = plot.plot_residual()
     twitter_df = utils.load_twitter_df()
-    sentiment_pie_chart = plot.plot_sentiment_pie()
+    combined_graph = plot.generate_plots()
 
     context = {"weather_cols": temp_and_wind_dic.keys(),
                "weather_stats": temp_and_wind_dic.values(),
@@ -34,6 +27,5 @@ def dashboard(request):
                "twitter_rows": twitter_df.to_dict("records"),
                "prediction_cols": prediction_dict.keys(),
                "prediction_values": prediction_dict.values(),
-               "prediction_graph": prediction_graph,
-               "sentiment_pie": sentiment_pie_chart}
+               "combined_graph": combined_graph}
     return render(request, 'display/dashboard.html', context)
