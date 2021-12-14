@@ -13,11 +13,11 @@ def get_prediction():
 
     models = [
         "LinearRegression",
-        "RidgeRegression1",
+        "RidgeRegression",
         "GradientBoosting",
-        "XGBoost",
+        "AdaBoost",
         "SVR",
-        "RandomForest"
+        "RandomForest",
     ]
     res = []
     for model in models:

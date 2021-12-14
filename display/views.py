@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import os
 from . import getweather, getprediction, gettwitter, plot, utils
 from django.http import HttpResponseRedirect
 from django.urls import reverse
