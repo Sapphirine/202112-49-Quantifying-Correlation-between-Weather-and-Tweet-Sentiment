@@ -136,12 +136,12 @@
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-light disabled">
-                        Temperature: {{ temperature }}
+                        Temperature: {{ temperature }}&#8451;
                     </button>
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-light disabled">
-                        Sentiment: {{ sentiment }}
+                        Aggregated Sentiment: {{ sentiment }}
                     </button>
                 </div>
                 <div class="col-auto">
@@ -152,13 +152,16 @@
                                     id="dropdown"
                                     aria-label="Example select with button addon"
                                     name="twitter_time_interval" style="width: 400px;">
-                                <option selected>Choose a time interval to update</option>
+                                <option selected>Choose a time interval to update (seconds)</option>
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="30">30</option>
                                 <option value="40">40</option>
                                 <option value="50">50</option>
                                 <option value="60">60</option>
+                                <option value="120">120</option>
+                                <option value="180">180</option>
+                                <option value="600">600</option>
                             </select>
                             <button class="btn btn-primary"
                                     id="update_button"
