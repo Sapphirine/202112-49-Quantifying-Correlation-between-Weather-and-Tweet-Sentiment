@@ -18,8 +18,18 @@ Activate your environment and install required dependencies from requirements.tx
 conda activate myenv
 pip install -r requirements.txt
 ```
+In order for the Django server to run successfully,you need to generate a new secret key
+```shell
+python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+```
+Copy and paste that key to twitterweathersite/settings.py and set
+```python
+SECRET_KEY = "what you just copied"
+```
+
 Optionally, if you want to train the models on yourself from fresh, you also need to install Apache Airflow.
-See [here](https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html#using-pypi) for more information
+See [here](https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html#using-pypi) 
+for more information.
 
 After installation, you can start the Django server and see the results from local host
 ```shell
