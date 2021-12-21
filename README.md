@@ -30,6 +30,7 @@ python .\manage.py runserver
 You can check further info in the articles directory.
 
 
-## Contact Developers
-* [Frederico Araujo](fca2118@columbia.edu?subject=[GitHub]%20Source%20Han%20Sans)
-* [Yewen Zhou](yz4175@columbia.edu?subject=[GitHub]%20Source%20Han%20Sans)
+## Contact Authors
+* Frederico Araujo (fca2118@columbia.edu)
+* Yewen Zhou (yz4175@columbia.edu)
+* Uday Mukhija (um2158@columbia.edu)
