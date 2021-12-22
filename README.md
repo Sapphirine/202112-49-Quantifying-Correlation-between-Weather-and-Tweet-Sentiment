@@ -9,7 +9,7 @@ To run this project locally, open your terminal and clone the repository
 ```shell
 git clone https://github.com/Sapphirine/202112-49-Quantifying-Correlation-between-Weather-and-Tweet-Sentiment.git
 ```
-Then, create a virtual environment
+Then, create a virtual environment using conda
 ```shell
 conda create --name myenv
 ```
@@ -26,6 +26,8 @@ Copy and paste that key to twitterweathersite/settings.py and set
 ```python
 SECRET_KEY = "what you just copied"
 ```
+Once you set your secret key, you should not change it. Remember not to push codes with your 
+secret key to github. 
 
 Optionally, if you want to train the models on yourself from fresh, you also need to install Apache Airflow.
 See [here](https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html#using-pypi) 
