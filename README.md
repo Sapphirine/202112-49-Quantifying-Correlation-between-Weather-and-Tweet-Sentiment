@@ -29,6 +29,9 @@ SECRET_KEY = "what you just copied"
 Once you set your secret key, you should not change it. Remember not to push codes with your 
 secret key to github. 
 
+Additionally, apply for Twitter Developer API and fill in display\gettwitter.py and display\gettwitter2.py. 
+Apply for OpenWeatherMap API and fill in your credential in display\getweather.py
+
 Optionally, if you want to train the models on yourself from fresh, you also need to install Apache Airflow.
 See [here](https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html#using-pypi) 
 for more information.
